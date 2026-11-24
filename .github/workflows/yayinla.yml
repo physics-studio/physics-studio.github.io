@@ -19,10 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Siteyi hazirla
         run: |
-          ZIP=$(ls -t *.zip | head -n 1)
-          echo "Kullanilan ZIP: $ZIP"
           mkdir _site
-          unzip -q "$ZIP" -d _site
+          for ZIP in $(ls *.zip | sort); do
+            echo "Kullanilan ZIP: $ZIP"
+            unzip -q -o "$ZIP" -d _site
+          done
           if [ -d icerik ]; then cp -r icerik _site/; fi
           cp google*.html _site/ 2>/dev/null || true
           test -f _site/index.html
